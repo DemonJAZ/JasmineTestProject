@@ -32,10 +32,10 @@ $(function() {
          * and that the URL is not empty.
          */
         it('url defined and not empty',function () {
-          for (var i = 0; i < allFeeds.length; i++) {
-            expect(allFeeds[i].url).toBeDefined();
-            expect(allFeeds[i].url).not.toBe('');
-          }
+          allFeeds.forEach(function (feed) {
+            expect(feed.url).toBeDefined();
+            expect(feed.url).not.toBe('');
+          })
         });
 
 
@@ -59,9 +59,8 @@ $(function() {
       /* a test that ensures the menu element is
        * hidden by default.
        */
-       var classList = document.body.classList;
        it('Menu is hidden',function () {
-         expect(classList).toContain('menu-hidden');
+         expect($('body').hasClass('menu-hidden')).toBe(true);
        });
 
 
@@ -72,10 +71,10 @@ $(function() {
         */
         it('is being Toggled correctly',function () {
           $('.menu-icon-link').click();
-          expect(classList).not.toContain('menu-hidden');
+          expect($('body').hasClass('menu-hidden')).not.toBe(true);
 
           $('.menu-icon-link').click();
-          expect(classList).toContain('menu-hidden');
+          expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
 
@@ -109,7 +108,7 @@ $(function() {
          var intialFeedTitle;
          beforeEach(function(done) {
             loadFeed(0, function() {
-                intialFeedTitle = document.getElementsByClassName('entry')[0].childNodes;
+                intialFeed = $('.entry').text();
                 //console.log(intialFeedTitle);
                 done();
             });
@@ -117,9 +116,9 @@ $(function() {
 
         it('new feed makes changes',function (done) {
           loadFeed(1, function(){
-            var newFeedTitle = document.getElementsByClassName('entry')[0].childNodes;
+            var newFeed = $('.entry').text();
             //console.log(newFeedTitle);
-            expect(newFeedTitle[1]).not.toBe(intialFeedTitle[1]);
+            expect(newFeed).not.toBe(intialFeed);
             done();
           });
         });

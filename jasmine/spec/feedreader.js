@@ -27,7 +27,7 @@ $(function() {
         });
 
 
-        /* TODO: Write a test that loops through each feed
+        /* a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
@@ -39,7 +39,7 @@ $(function() {
         });
 
 
-        /* TODO: Write a test that loops through each feed
+        /* a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
@@ -54,76 +54,72 @@ $(function() {
     });
 
 
-    /* TODO: Write a new test suite named "The menu" */
+    /* test suite named "The menu" */
     describe('The menu', function () {
-      /* TODO: Write a test that ensures the menu element is
-       * hidden by default. You'll have to analyze the HTML and
-       * the CSS to determine how we're performing the
-       * hiding/showing of the menu element.
+      /* a test that ensures the menu element is
+       * hidden by default.
        */
+       var classList = document.body.classList;
        it('Menu is hidden',function () {
-         var className = document.getElementsByClassName('menu-hidden');
-         expect(className).toBeDefined();
+         expect(classList).toContain('menu-hidden');
        });
 
 
-       /* TODO: Write a test that ensures the menu changes
+       /* a test that ensures the menu changes
         * visibility when the menu icon is clicked. This test
-        * should have two expectations: does the menu display when
+        * have two expectations: does the menu display when
         * clicked and does it hide when clicked again.
         */
         it('is being Toggled correctly',function () {
           $('.menu-icon-link').click();
-          expect(document.body.className).not.toContain('menu-hidden');
+          expect(classList).not.toContain('menu-hidden');
 
           $('.menu-icon-link').click();
-          expect(document.body.className).toContain('menu-hidden');
+          expect(classList).toContain('menu-hidden');
         });
     });
 
 
-    /* TODO: Write a new test suite named "Initial Entries" */
+    /* test suite named "Initial Entries" */
     describe('Initial Entries',function () {
-
-        var container = $('.feed');
-        /* TODO: Write a test that ensures when the loadFeed
+        /* a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
          beforeEach(function(done){
-           loadFeed(0,function () {
-             done();
-           });
+           loadFeed(0,done);
          });
 
          it('has atleast one feed in container',function (done) {
-           expect(container.length).toBeGreaterThan(0);
+           expect($('.feed .entry').length).toBeGreaterThan(0);
            done();
          });
 
 
     });
-    /* TODO: Write a new test suite named "New Feed Selection" */
+    /* test suite named "New Feed Selection" */
     describe('New Feed Selection',function(){
 
-        /* TODO: Write a test that ensures when a new feed is loaded
+        /* a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-         var intialFeed;
+         var intialFeedTitle;
          beforeEach(function(done) {
             loadFeed(0, function() {
-                intialFeed = $('.feel');
+                intialFeedTitle = document.getElementsByClassName('entry')[0].childNodes;
+                //console.log(intialFeedTitle);
                 done();
             });
         });
 
         it('new feed makes changes',function (done) {
           loadFeed(1, function(){
-            var newFeed = $('.feed');
-            expect(newFeed).not.toBe(intialFeed);
+            var newFeedTitle = document.getElementsByClassName('entry')[0].childNodes;
+            //console.log(newFeedTitle);
+            expect(newFeedTitle[1]).not.toBe(intialFeedTitle[1]);
             done();
           });
         });
